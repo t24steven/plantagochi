@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plantagochi</title>
+    <link rel="stylesheet" href="src/styles/style-base.css">
+    <link rel="stylesheet" href="src/styles/style-menu.css">
+    <style>
+
+
+        body {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            font-family: 'Arial Rounded MT Bold', 'Arial', sans-serif;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 30px 20px 50px;
+        }
+
+        /* ── PLANTA CENTRAL ── */
+        .plant-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .plant-container img {
+            max-height: 65vh;
+            max-width: 80vw;
+            object-fit: contain;
+            filter: drop-shadow(0 8px 16px rgba(0,0,0,0.25));
+        }
+
+        /* ── BOTÓN PLAY ── */
+        .play-btn {
+            display: block;
+            padding: 16px 80px;
+            font-size: clamp(1.2rem, 4vw, 1.8rem);
+            font-weight: bold;
+            color: #ffffff;
+            background: linear-gradient(180deg, #7ed94f 0%, #4caf1f 100%);
+            border: none;
+            border-radius: 50px;
+            box-shadow:
+                0 6px 0 #2d7a00,
+                0 8px 12px rgba(0,0,0,0.3);
+            cursor: pointer;
+            text-decoration: none;
+            transition: transform 0.1s, box-shadow 0.1s;
+            letter-spacing: 1px;
+        }
+
+        .play-btn:hover {
+            transform: translateY(2px);
+            box-shadow:
+                0 4px 0 #2d7a00,
+                0 6px 10px rgba(0,0,0,0.3);
+        }
+
+        .play-btn:active {
+            transform: translateY(5px);
+            box-shadow:
+                0 1px 0 #2d7a00,
+                0 3px 6px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="plant-container">
+        <img src="assets/pp/privacy.png" alt="privacy policy">
+    </div>
+
+    <a href="selectYourPlant.html" class="play-btn">Accept</a>
+
+</body>
+</html>

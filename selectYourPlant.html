@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selecciona tu Planta</title>
+    <link rel="stylesheet" href="src/styles/style-base.css">
+    <link rel="stylesheet" href="src/styles/style-menu.css">
+</head>
+<body>
+    
+    <header class="menu-header">
+        <h1>Select your plant</h1>
+        <p>and start to take care of it</p>
+    </header>
+
+    <main class="menu-container">
+<main class="menu-container">
+    <div class="slider-wrapper">
+
+        <button class="carousel-btn prev" onclick="cambiarSlide(-1)" aria-label="Anterior">
+            <span>&#8249;</span>
+        </button>
+
+        <div class="planta-box">
+            <ul id="slides">
+                <li>
+                    <img src="assets/plants/plantsC/nopal_2.png" alt="Planta 1">
+                </li>
+                <li>
+                    <img src="assets/plants/plantsC/lengua_2.png" alt="Planta 2">
+                </li>
+                <li>
+                    <img src="assets/plants/plantsC/girasol_2.png" alt="Planta 3">
+                </li>
+            </ul>
+        </div>
+
+        <button class="carousel-btn next" onclick="cambiarSlide(1)" aria-label="Siguiente">
+            <span>&#8250;</span>
+        </button>
+    </div>
+</main>
+
+
+    </main>
+
+    <div class="bottom-bar">
+    <!-- Cambia el <a> por un <button> para poder guardar antes de navegar -->
+    <button onclick="seleccionarPlanta()" class="select-btn">Select</button>
+</div>
+
+<script>
+    (function(){
+        const slides = document.querySelectorAll('#slides li');
+        let slideIndex = 0;
+        let intervalId = null;
+
+        // Define qué planta corresponde a cada índice
+        const plantas = [
+            {
+                key: 'nopal',
+                body: '/assets/plants/nopal_2.png',
+                stages: [
+                    '/assets/plants/nopal_1.png',
+                    '/assets/plants/nopal_2.png',
+                    '/assets/plants/nopal_3.png',
+                    '/assets/plants/nopal_4.png'
+                ]
+            },
+            {
+                key: 'lengua',
+                body: '/assets/plants/lengua_2.png',
+                stages: [
+                    '/assets/plants/lengua_1.png',
+                    '/assets/plants/lengua_2.png',
+                    '/assets/plants/lengua_3.png',
+                    '/assets/plants/lengua_4.png'
+                ]
+            },
+            {
+                key: 'girasol',
+                body: '/assets/plants/girasol_2.png',
+                stages: [
+                    '/assets/plants/girasol_1.png',
+                    '/assets/plants/girasol_2.png',
+                    '/assets/plants/girasol_3.png',
+                    '/assets/plants/girasol_4.png'
+                ]
+            }
+        ];
+
+        // Guarda la planta elegida y navega al juego
+        window.seleccionarPlanta = function(){
+            const plantaElegida = plantas[slideIndex];
+            localStorage.setItem('plantaSeleccionada', JSON.stringify(plantaElegida));
+            window.location.href = 'game.html';
+        }
+
+        function showSlide(i){
+            slideIndex = (i + slides.length) % slides.length;
+            slides.forEach(s => s.style.display = 'none');
+            slides[slideIndex].style.display = 'flex';
+        }
+
+        function next(){ showSlide(slideIndex + 1); }
+        function prev(){ showSlide(slideIndex - 1); }
+
+        window.cambiarSlide = function(n){
+            if (n > 0) next(); else prev();
+            resetAuto();
+        }
+
+        function startAuto(){ intervalId = setInterval(next, 5000); }
+        function resetAuto(){
+            if(intervalId) clearInterval(intervalId);
+            startAuto();
+        }
+
+        window.addEventListener('load', () => {
+            if(slides.length === 0) return;
+            showSlide(0);
+            startAuto();
+        });
+
+        window.addEventListener('beforeunload', () => {
+            if(intervalId) clearInterval(intervalId);
+        });
+    })();
+
+</script>
+
+</body>
+</html>

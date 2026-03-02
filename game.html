@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="src/styles/style-base.css">
+    <title>plantagochi - care your plant</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+        }
+
+        #game-container {
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+        canvas {
+            display: block !important;
+            width: 100% !important;
+            height: 100% !important;
+        }
+    </style>
+</head>
+<body>
+    <audio autoplay loop id="audio1">
+        <source src="assets/sound/audio.mp3" type="audio/mpeg">
+    </audio>
+    <div id="game-container"></div>
+    <script type="module" src="src/main.js"></script>
+    <script>
+        const audioElement = document.getElementById("audio1");
+        audioElement.volume = 0.30;
+    </script>
+</body>
+</html>
