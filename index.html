@@ -7,7 +7,11 @@
     <link rel="stylesheet" href="src/styles/style-base.css">
     <link rel="stylesheet" href="src/styles/style-menu.css">
     <style>
-
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
         body {
             width: 100vw;
@@ -20,26 +24,21 @@
             flex-direction: column;
             align-items: center;
             justify-content: space-between;
-            padding: 30px 20px 50px;
+            padding: 15px 20px 30px; /* ← reducido */
         }
 
-
-
         /* ── TÍTULO ── */
-        h1 {
-            font-size: clamp(36px, 6vw, 72px);
-    margin: 0;
-    color: #A0D14F;
-    font-family: 'Londrina Solid', cursive;
-    text-shadow:
-                -3px -3px 0 #3B650C,
-                 3px -3px 0 #3B650C,
-                -3px  3px 0 #3B650C,
-                 3px  3px 0 #3B650C,
-                 0    5px 0 #3B650C;
-    letter-spacing: 2px;
-    paint-order: stroke fill;
-    text-shadow: 0 4px 0 #3B650C;
+        .title {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            flex-shrink: 0;
+        }
+
+        .title img {
+            width: clamp(350px, 55vw, 750px); /* ← más grande */
+            object-fit: contain;
         }
 
         /* ── PLANTA CENTRAL ── */
@@ -48,59 +47,61 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            padding: 0; /* ← sin padding extra */
         }
 
         .plant-container img {
-            max-height: 65vh;
-            max-width: 80vw;
+            max-height: 55vh; /* ← un poco más pequeña para dar espacio */
+            max-width: 70vw;
             object-fit: contain;
-            filter: drop-shadow(0 8px 16px rgba(0,0,0,0.25));
+            filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.3));
         }
 
         /* ── BOTÓN PLAY ── */
         .play-btn {
-            display: block;
-            padding: 16px 80px;
-            font-size: clamp(1.2rem, 4vw, 1.8rem);
-            font-weight: bold;
-            color: #ffffff;
-            background: linear-gradient(180deg, #7ed94f 0%, #4caf1f 100%);
-            border: none;
-            border-radius: 50px;
-            box-shadow:
-                0 6px 0 #2d7a00,
-                0 8px 12px rgba(0,0,0,0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-shrink: 0;
             cursor: pointer;
             text-decoration: none;
-            transition: transform 0.1s, box-shadow 0.1s;
-            letter-spacing: 1px;
+            border: none;
+            background: none;
         }
 
-        .play-btn:hover {
-            transform: translateY(2px);
-            box-shadow:
-                0 4px 0 #2d7a00,
-                0 6px 10px rgba(0,0,0,0.3);
+        .play-btn img {
+            width: clamp(130px, 15vw, 220px); /* ← ligeramente más pequeño */
+            object-fit: contain;
+            transition: transform 0.1s ease, filter 0.1s ease;
         }
 
-        .play-btn:active {
-            transform: translateY(5px);
-            box-shadow:
-                0 1px 0 #2d7a00,
-                0 3px 6px rgba(0,0,0,0.2);
+        .play-btn:hover img {
+            transform: scale(1.05);
+            filter: brightness(1.1);
+        }
+
+        .play-btn:active img {
+            transform: scale(0.96);
+            filter: brightness(0.95);
         }
     </style>
 </head>
 <body>
 
-    <h1>Plantagochi</h1>
+    <!-- TÍTULO -->
+    <div class="title">
+        <img src="assets/titles/plantagochi.png" alt="Plantagochi">
+    </div>
 
+    <!-- PLANTA CENTRAL -->
     <div class="plant-container">
-        <!-- Reemplaza con tu PNG de la planta -->
         <img src="assets/plants/planta_index.png" alt="Planta">
     </div>
 
-    <a href="privacy_policy.html" class="play-btn">Play</a>
+    <!-- BOTÓN PLAY -->
+    <a href="privacy_policy.html" class="play-btn">
+        <img src="assets/buttons/start_btn.png" alt="Jugar">
+    </a>
 
 </body>
 </html>

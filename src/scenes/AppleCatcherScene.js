@@ -104,7 +104,7 @@ preload() {
         ).setInteractive();
 
         exitBtn.on('pointerdown', () => {
-            const currentCoins = this.registry.get('coins') || 0;
+            const currentCoins = this.registry.get('coins') || 999;
             this.registry.set('coins', currentCoins + this.points);
             
             // Restaurar gravedad original

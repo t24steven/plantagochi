@@ -40,35 +40,19 @@
 
         /* ── BOTÓN PLAY ── */
         .play-btn {
-            display: block;
-            padding: 16px 80px;
-            font-size: clamp(1.2rem, 4vw, 1.8rem);
-            font-weight: bold;
-            color: #ffffff;
-            background: linear-gradient(180deg, #7ed94f 0%, #4caf1f 100%);
-            border: none;
-            border-radius: 50px;
-            box-shadow:
-                0 6px 0 #2d7a00,
-                0 8px 12px rgba(0,0,0,0.3);
-            cursor: pointer;
-            text-decoration: none;
-            transition: transform 0.1s, box-shadow 0.1s;
-            letter-spacing: 1px;
+            width: clamp(130px, 15vw, 220px);
+            object-fit: contain;
+            transition: transform 0.1s ease, filter 0.1s ease;
         }
 
-        .play-btn:hover {
-            transform: translateY(2px);
-            box-shadow:
-                0 4px 0 #2d7a00,
-                0 6px 10px rgba(0,0,0,0.3);
+        .play-btn:hover img {
+            transform: scale(1.05);
+            filter: brightness(1.1);
         }
 
-        .play-btn:active {
-            transform: translateY(5px);
-            box-shadow:
-                0 1px 0 #2d7a00,
-                0 3px 6px rgba(0,0,0,0.2);
+        .play-btn:active img {
+            transform: scale(0.96);
+            filter: brightness(0.95);
         }
     </style>
 </head>
@@ -77,7 +61,9 @@
         <img src="assets/pp/privacy.png" alt="privacy policy">
     </div>
 
-    <a href="selectYourPlant.html" class="play-btn">Accept</a>
+    <a href="selectYourPlant.html" class="play-btn">
+        <img src="assets/buttons/next_btn.png" alt="Jugar">
+    </a>
 
 </body>
 </html>
