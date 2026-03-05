@@ -14,14 +14,14 @@ export default class GameScene extends Phaser.Scene {
     preload() {
         const data = localStorage.getItem('plantaSeleccionada');
         this.plantaData = data ? JSON.parse(data) : {
-            key: 'nopal',
-            body: 'assets/plants/nopal_2.png'
+            key: 'plant1',
+            body: 'assets/plants/plant1.png'  // fallback = primera planta
         };
 
         // Fondo
         this.load.image('bg', 'public/elements/bg/interior.png');
 
-        // Planta seleccionada (ruta relativa, sin / inicial)
+        // Planta seleccionada — path sin / inicial para Vite
         this.load.image('plant_default', this.plantaData.body);
 
         // Moneda
@@ -43,6 +43,10 @@ export default class GameScene extends Phaser.Scene {
         this.load.image('pot_basic',   'assets/pots/pot_basic.png');
         this.load.image('pot_fancy',   'assets/pots/pot_fancy.png');
         this.load.image('pot_ceramic', 'assets/pots/pot_ceramic.png');
+        this.load.image('pot_1', 'assets/pots/pot_1.png');
+        this.load.image('pot_2', 'assets/pots/pot_2.png');
+        this.load.image('pot_3', 'assets/pots/pot_3.png');
+        this.load.image('pot_4', 'assets/pots/pot_4.png');
 
         // Expresiones — ojos
         this.load.image('eye_normal',    'assets/plants/eye_normal.png');
@@ -58,22 +62,16 @@ export default class GameScene extends Phaser.Scene {
         this.load.image('mouth_sleepy',    'assets/plants/mouth_sleepy.png');
 
         // Efectos
-        this.load.image('blush',         'assets/effects/blush.png');
-        this.load.image('heart',         'assets/effects/heart.png');
-        this.load.image('water_drop',    'assets/effects/water_drop.png');
-        this.load.image('sun_ray',       'assets/effects/sun_ray.png');
-        this.load.image('soil_particle', 'assets/effects/soil_particle.png');
+        this.load.image('blush',          'assets/effects/blush.png');
+        this.load.image('heart',          'assets/effects/heart.png');
+        this.load.image('water_drop',     'assets/effects/water_drop.png');
+        this.load.image('sun_ray',        'assets/effects/sun_ray.png');
+        this.load.image('soil_particle',  'assets/effects/soil_particle.png');
 
         // Sombreros
         this.load.image('hat_1', 'assets/hats/hat_1.png');
         this.load.image('hat_2', 'assets/hats/hat_2.png');
         this.load.image('hat_3', 'assets/hats/hat_3.png');
-
-        // Pots
-        this.load.image('pot_1', 'assets/pots/pot_1.png');
-        this.load.image('pot_2', 'assets/pots/pot_2.png');
-        this.load.image('pot_3', 'assets/pots/pot_3.png');
-        this.load.image('pot_4', 'assets/pots/pot_4.png');
 
         // Regaderas
         this.load.image('watering_1', 'assets/waterings/watering_1.png');
@@ -85,13 +83,13 @@ export default class GameScene extends Phaser.Scene {
         this.load.image('notebook_snake',     'assets/notebooks/notebook_snake.png');
         this.load.image('notebook_sunflower', 'assets/notebooks/notebook_sunflower.png');
 
-
         // Video muerte
         this.load.video('plant_die', [
             'public/animation/plant_die.mp4',
             'public/animation/plant_die.webm'
         ]);
     }
+
 
     create() {
         this.stats = this.registry.get('plantStats');
