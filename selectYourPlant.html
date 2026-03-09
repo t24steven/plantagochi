@@ -13,19 +13,19 @@
         <div class="slider-wrapper">
 
             <button class="carousel-btn prev" onclick="cambiarSlide(-1)" aria-label="Anterior">
-                <img src="assets/buttons/left_arrow.png" alt="Anterior">
+                <img src="/assets/buttons/left_arrow.png" alt="Anterior">
             </button>
 
             <div class="planta-box">
                 <ul id="slides">
-                    <li><img src="assets/plants/plantsC/plant1.png" alt="Planta 1"></li>
-                    <li><img src="assets/plants/plantsC/plant2.png" alt="Planta 2"></li>
-                    <li><img src="assets/plants/plantsC/plant3.png" alt="Planta 3"></li>
+                    <li><img src="/assets/plants/plantsC/plant1.png" alt="Planta 1"></li>
+                    <li><img src="/assets/plants/plantsC/plant2.png" alt="Planta 2"></li>
+                    <li><img src="/assets/plants/plantsC/plant3.png" alt="Planta 3"></li>
                 </ul>
             </div>
 
             <button class="carousel-btn next" onclick="cambiarSlide(1)" aria-label="Siguiente">
-                <img src="assets/buttons/right_arrow.png" alt="Siguiente">
+                <img src="/assets/buttons/right_arrow.png" alt="Siguiente">
             </button>
 
         </div>
@@ -33,7 +33,7 @@
 
     <div class="bottom-bar">
         <button onclick="seleccionarPlanta()" class="select-btn">
-            <img src="assets/buttons/next_btn.png" alt="Seleccionar Planta">
+            <img src="/assets/buttons/next_btn.png" alt="Seleccionar Planta">
         </button>
     </div>
 
@@ -44,22 +44,23 @@
             let intervalId = null;
 
         const plantas = [
-            {
-                key: 'plant1',
-                body: 'assets/plants/plantsC/plant1.png',      // menú
-                gameBody: 'assets/plants/plant1.png' // juego
-            },
-            {
-                key: 'plant2',
-                body: 'assets/plants/plantsC/plant2.png',
-                gameBody: 'assets/plants/plant2.png'
-            },
-            {
-                key: 'plant3',
-                body: 'assets/plants/plantsC/plant3.png',
-                gameBody: 'assets/plants/plant3.png'
-            }
-        ];
+    {
+        key: 'plant1',
+        body: '/assets/plants/plantsC/plant1.png',         // imagen del carrusel
+        bodyGame: '/assets/plants/plant1.png' // imagen en el juego ← NUEVO
+    },
+    {
+        key: 'plant2',
+        body: '/assets/plants/plantsC/plant2.png',
+        bodyGame: '/assets/plants/plant2.png'
+    },
+    {
+        key: 'plant3',
+        body: '/assets/plants/plantsC/plant3.png',
+        bodyGame: '/assets/plants/plant3.png'
+    }
+];
+
 
 
             window.seleccionarPlanta = function () {

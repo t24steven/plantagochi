@@ -16,107 +16,77 @@ export default class Plant extends Phaser.GameObjects.Container {
     }
 
     createPlant() {
-        // Sombra
-        this.shadow = this.scene.add.ellipse(0, 180, 120, 24, 0x000000, 0.2);
-        this.add(this.shadow);
-
         // Maceta
-        this.pot = this.scene.add.image(0, 140, 'pot_basic').setOrigin(0.5);
+        this.pot = this.scene.add.image(0, 90, 'pot_basic')
+            .setOrigin(0.5)
+            .setDisplaySize(160, 130);
         this.add(this.pot);
 
         // Cuerpo de la planta
-        this.plantBody = this.scene.add.image(0, 40, this.plantType)
+        this.plantBody = this.scene.add.image(0, -80, this.plantType)
             .setOrigin(0.5)
-            .setDisplaySize(680, 680);
+            .setDisplaySize(280, 280);
         this.add(this.plantBody);
 
-        // Cara
-        this.createFace();
+        // Cara — una sola imagen centrada en el cuerpo
+        this.face = this.scene.add.image(0, -85, 'face_happy')
+            .setOrigin(0.5)
+            .setDisplaySize(160, 80);
+        this.add(this.face);
 
-        // Sonrojos
-        this.createBlush();
-
-        // Sombrero (equipamiento) - oculto por defecto
-        this.hat = this.scene.add.image(0, -60, 'hat_1')
+        // Sombrero — oculto por defecto
+        this.hat = this.scene.add.image(0, -150, 'hat_1')
             .setOrigin(0.5)
             .setScale(0.9)
             .setDepth(15)
             .setVisible(false);
         this.add(this.hat);
-
     }
 
     applyEquipment(equipped) {
-        // Cambiar maceta si hay pot seleccionado (la key viene como 'pots' desde los panels)
         try {
             if (!equipped) return;
             const pot = equipped.pots || equipped.pot;
-            if (pot) {
-                this.changePot(pot);
-            }
-            // Sombrero
+            if (pot) this.changePot(pot);
+
             const hat = equipped.hats || equipped.hat;
             if (hat) {
                 this.setHat(hat);
             } else if (this.hat) {
-                // si no hay sombrero, ocultarlo
                 this.hat.setVisible(false);
             }
         } catch (e) {
-            // seguridad: no romper si la estructura no es la esperada
             console.warn('applyEquipment error', e);
         }
     }
 
     setHat(hatKey) {
         try {
-            if (!hatKey) {
-                if (this.hat) this.hat.setVisible(false);
-                return;
-            }
-            // si la textura no existe fallará en tiempo de render, proteger
+            if (!hatKey) { this.hat?.setVisible(false); return; }
             this.hat.setTexture(hatKey);
             this.hat.setVisible(true);
         } catch (e) {
             console.warn('setHat error', e);
-            if (this.hat) this.hat.setVisible(false);
+            this.hat?.setVisible(false);
         }
     }
 
-    createFace() {
-        this.leftEye = this.scene.add.image(-15, -10, 'eye_normal')
-            .setOrigin(0.5).setScale(0.8);
-        this.rightEye = this.scene.add.image(15, -10, 'eye_normal')
-            .setOrigin(0.5).setScale(0.8);
-        this.mouth = this.scene.add.image(0, 15, 'mouth_happy')
-            .setOrigin(0.5).setScale(0.8);
-        this.add([this.leftEye, this.rightEye, this.mouth]);
-    }
-
-    createBlush() {
-        this.leftBlush  = this.scene.add.image(-30, 5, 'blush').setOrigin(0.5).setAlpha(0);
-        this.rightBlush = this.scene.add.image( 30, 5, 'blush').setOrigin(0.5).setAlpha(0);
-        this.add([this.leftBlush, this.rightBlush]);
-    }
-
     setupAnimations() {
-    // Flotación vertical suave en lugar de escala
-    this.scene.tweens.add({
-        targets: this,          // mueve el container completo
-        y: this.y - 8,
-        duration: 2000,
-        yoyo: true,
-        repeat: -1,
-        ease: 'Sine.easeInOut'
-    });
+        this.scene.tweens.add({
+            targets: this,
+            y: this.y - 8,
+            duration: 2000,
+            yoyo: true,
+            repeat: -1,
+            ease: 'Sine.easeInOut'
+        });
 
-    // Parpadeo aleatorio
-    this.scene.time.addEvent({
-        delay: Phaser.Math.Between(3000, 6000),
-        callback: () => this.blink(),
-        loop: true
-    });
-}
+        this.scene.time.addEvent({
+            delay: Phaser.Math.Between(3000, 6000),
+            callback: () => this.blink(),
+            loop: true
+        });
+    }
 
     setupInteractivity() {
         this.setSize(200, 350);
@@ -129,12 +99,12 @@ export default class Plant extends Phaser.GameObjects.Container {
         this.on('pointerout',  () => this.scene.input.setDefaultCursor('default'));
     }
 
+    // Parpadeo: cambia temporalmente a face_normal (ojos cerrados)
     blink() {
-        this.leftEye.setTexture('eye_closed');
-        this.rightEye.setTexture('eye_closed');
+        const current = this.face.texture.key;
+        this.face.setTexture('face_normal');
         this.scene.time.delayedCall(150, () => {
-            this.leftEye.setTexture('eye_normal');
-            this.rightEye.setTexture('eye_normal');
+            this.face.setTexture(current); // restaura la cara que tenía
         });
     }
 
@@ -144,14 +114,6 @@ export default class Plant extends Phaser.GameObjects.Container {
     }
 
     showHappiness() {
-        this.scene.tweens.add({
-            targets: [this.leftBlush, this.rightBlush],
-            alpha: 0.8,
-            duration: 200,
-            yoyo: true,
-            hold: 1000
-        });
-
         this.setEmotion('happy');
 
         this.scene.tweens.add({
@@ -162,8 +124,7 @@ export default class Plant extends Phaser.GameObjects.Container {
             ease: 'Quad.easeOut',
             onComplete: () => {
                 this.scene.time.delayedCall(1000, () => {
-                    this.leftEye.setTexture('eye_normal');
-                    this.rightEye.setTexture('eye_normal');
+                    this.face.setTexture('face_happy');
                 });
             }
         });
@@ -283,23 +244,8 @@ export default class Plant extends Phaser.GameObjects.Container {
     }
 
     changePot(potType) {
-        // potType suele ser una key de textura (por ejemplo 'pot_1' o 'pot_basic')
         this.currentPot = potType;
-        this.scene.tweens.add({
-            targets: this.pot,
-            scaleX: 0,
-            duration: 200,
-            ease: 'Back.easeIn',
-            onComplete: () => {
-                this.pot.setTexture(potType);
-                this.scene.tweens.add({
-                    targets: this.pot,
-                    scaleX: 1,
-                    duration: 200,
-                    ease: 'Back.easeOut'
-                });
-            }
-        });
+        this.pot.setTexture(potType);
         this.showHappiness();
     }
 
@@ -314,15 +260,13 @@ export default class Plant extends Phaser.GameObjects.Container {
 
     setEmotion(emotion) {
         const map = {
-            happy:     { eye: 'eye_happy',    mouth: 'mouth_happy'     },
-            sad:       { eye: 'eye_sad',       mouth: 'mouth_sad'       },
-            surprised: { eye: 'eye_surprised', mouth: 'mouth_surprised' },
-            sleepy:    { eye: 'eye_closed',    mouth: 'mouth_sleepy'    },
+            happy:     'face_happy',
+            sad:       'face_sad',
+            surprised: 'face_surprised',
+            sleepy:    'face_sleepy',
+            normal:    'face_normal',
         };
-        const e = map[emotion] || map.happy;
-        this.leftEye.setTexture(e.eye);
-        this.rightEye.setTexture(e.eye);
-        this.mouth.setTexture(e.mouth);
+        this.face.setTexture(map[emotion] || 'face_happy');
     }
 
     resetAppearance() {

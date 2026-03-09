@@ -3,8 +3,10 @@ import { CONFIG, PLANT_STATS } from './config';
 import GameScene from './scenes/GameScene';
 import ShopScene from './scenes/ShopScene';
 import MinigamesMenuScene from './scenes/MinigamesMenuScene';
-import AppleCatcherScene from './scenes/AppleCatcherScene';
+import CatchFertilizerScene from './scenes/CatchFertilizerScene';
+import KillTheBugsScene from './scenes/KillTheBugsScene';
 import YardScene from './scenes/YardScene';
+import BugDefenseScene from './scenes/BugDefenseScene';
 
 class Game extends Phaser.Game {
     constructor() {
@@ -15,7 +17,8 @@ class Game extends Phaser.Game {
                 YardScene,
                 ShopScene,
                 MinigamesMenuScene,
-                AppleCatcherScene
+                CatchFertilizerScene,
+                BugDefenseScene
             ]
         };
         

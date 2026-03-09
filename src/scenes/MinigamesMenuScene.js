@@ -6,19 +6,19 @@ export default class MinigamesMenuScene extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image('bg_yard',         'public/elements/bg/exterior.png');
-        this.load.image('icon_bug',        'assets/ui/icon_bug.png');
-        this.load.image('icon_fertilizer', 'assets/ui/icon_fertilizer.png');
-        this.load.image('coin',            'assets/ui/coin.png');
-        this.load.image('icon_notebook',   'assets/ui/icon_notebook.png');
-        this.load.image('icon_water',      'assets/ui/icon_water.png');
-        this.load.image('icon_sun',        'assets/ui/icon_sun.png');
-        this.load.image('icon_leaf',       'assets/ui/icon_leaf.png');
+        this.load.image('bg_yard',         '/elements/bg/exterior.png');
+        this.load.image('icon_bug',        '/assets/ui/icon_bug.png');
+        this.load.image('icon_fertilizer', '/assets/ui/icon_fertilizer.png');
+        this.load.image('coin',            '/assets/ui/coin.png');
+        this.load.image('icon_notebook',   '/assets/ui/icon_notebook.png');
+        this.load.image('icon_water',      '/assets/ui/icon_water.png');
+        this.load.image('icon_sun',        '/assets/ui/icon_sun.png');
+        this.load.image('icon_leaf',       '/assets/ui/icon_leaf.png');
 
         // Notebooks para el panel
-        this.load.image('notebook_cactus',    'assets/notebooks/notebook_cactus.png');
-        this.load.image('notebook_snake',     'assets/notebooks/notebook_snake.png');
-        this.load.image('notebook_sunflower', 'assets/notebooks/notebook_sunflower.png');
+        this.load.image('notebook_cactus',    '/assets/notebooks/notebook_cactus.png');
+        this.load.image('notebook_snake',     '/assets/notebooks/notebook_snake.png');
+        this.load.image('notebook_sunflower', '/assets/notebooks/notebook_sunflower.png');
     }
 
     create() {
@@ -50,12 +50,12 @@ export default class MinigamesMenuScene extends Phaser.Scene {
 
         this._createGameCard(getX(370), getY(400), 'icon_bug', 'KILL THE BUGS', () => {
             this.scene.stop('MinigamesMenuScene');
-            this.scene.launch('KillTheBugsScene', { origin });
+            this.scene.start('BugDefenseScene');
         });
 
         this._createGameCard(getX(830), getY(400), 'icon_fertilizer', 'CATCH THE\nFERTILIZER', () => {
             this.scene.stop('MinigamesMenuScene');
-            this.scene.launch('AppleCatcherScene', { origin });
+            this.scene.start('CatchFertilizerScene');
         });
 
         // ── BOTÓN VOLVER ──────────────────────────────────────

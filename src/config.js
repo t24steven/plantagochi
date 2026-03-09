@@ -4,9 +4,8 @@ export const CONFIG = {
     type: Phaser.AUTO,
     parent: 'game-container',
     backgroundColor: '#e8f5e9',
-    // match the CSS viewport size but render using device pixels
-    width: window.innerWidth,
-    height: window.innerHeight,
+    width: 1200,
+    height: 800,
     resolution: window.devicePixelRatio,       // ensure high‑DPI canvas
     pixelArt: false,                           // set to true if using pixel‑art assets
     physics: {
@@ -17,7 +16,7 @@ export const CONFIG = {
         }
     },
     scale: {
-        mode: Phaser.Scale.RESIZE,
+        mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH,
     }
 };

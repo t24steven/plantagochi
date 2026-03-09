@@ -2,61 +2,38 @@ export default class StorePanel {
     constructor(scene) {
         this.scene    = scene;
         this.visible  = false;
-        this.category = 'hats'; // categoría activa
+        this.category = 'hats';
         this.container = null;
         this._create();
     }
 
     _create() {
         const W = 900, H = 580;
-        const cx = this.scene.scale.width / 2;
+        const cx = this.scene.scale.width  / 2;
         const cy = this.scene.scale.height / 2;
 
         this.container = this.scene.add.container(cx, cy).setDepth(50).setVisible(false);
-        // keep centered on resize
-        this.scene.scale.on('resize', ({width,height}) => {
-            this.container.setPosition(width/2, height/2);
+        this.scene.scale.on('resize', ({width, height}) => {
+            this.container.setPosition(width / 2, height / 2);
         });
 
-        // Fondo oscuro bloqueador
         const blocker = this.scene.add.rectangle(0, 0, 1200, 800, 0x000000, 0.55)
-            .setInteractive(); // bloquea clicks debajo
+            .setInteractive();
         this.container.add(blocker);
 
-        // Panel principal
-        const bg = this.scene.add.rectangle(0, 0, W, H, 0xf0f8ff, 0.97)
-            .setStrokeStyle(6, 0x4caf50);
+        // ── ÚNICO CAMBIO: imagen en lugar de rectángulo ──
+        const bg = this.scene.add.image(0, 0, 'shop_bg')
+            .setDisplaySize(W, H).setOrigin(0.5);
         this.container.add(bg);
 
-        // Título
-        const title = this.scene.add.text(0, -H / 2 + 45, 'Store', {
-            fontSize: '52px', color: '#4caf50',
-            fontStyle: 'bold', fontFamily: 'Arial',
-            stroke: '#2e7d32', strokeThickness: 4
-        }).setOrigin(0.5);
-        this.container.add(title);
-
-        // Botón cerrar
-        const closeBtn = this.scene.add.text(W / 2 - 30, -H / 2 + 30, '✕', {
-            fontSize: '28px', color: '#e53935',
-            fontStyle: 'bold', fontFamily: 'Arial'
-        }).setOrigin(0.5).setInteractive({ useHandCursor: true });
-        closeBtn.on('pointerdown', () => this.hide());
-        closeBtn.on('pointerover', () => closeBtn.setColor('#ff1744'));
-        closeBtn.on('pointerout',  () => closeBtn.setColor('#e53935'));
-        this.container.add(closeBtn);
-
-        // Monedas disponibles
         this.coinsText = this.scene.add.text(-W / 2 + 30, -H / 2 + 30, '$0', {
             fontSize: '24px', color: '#b8860b',
             fontStyle: 'bold', fontFamily: 'Arial'
         }).setOrigin(0, 0.5);
         this.container.add(this.coinsText);
 
-        // Tabs de categorías
         this._createTabs(W, H);
 
-        // Contenedor de items (se regenera al cambiar tab)
         this.itemsContainer = this.scene.add.container(0, 60);
         this.container.add(this.itemsContainer);
 
@@ -65,8 +42,8 @@ export default class StorePanel {
 
     _createTabs(W, H) {
         const tabs = [
-            { key: 'hats',     label: 'HATS'          },
-            { key: 'pots',     label: 'POTS'          },
+            { key: 'hats',      label: 'HATS'          },
+            { key: 'pots',      label: 'POTS'          },
             { key: 'waterings', label: 'WATERING CANS' },
         ];
 
@@ -128,34 +105,29 @@ export default class StorePanel {
     _renderItems() {
         this.itemsContainer.removeAll(true);
 
-        const items    = this._getCatalog();
-        const owned    = this.scene.registry.get('ownedItems') || {};
-        const equipped = this.scene.registry.get('equippedItems') || {};
-        const spacing  = 220;
-        const startX   = -(spacing * (items.length - 1)) / 2;
+        const items   = this._getCatalog();
+        const owned   = this.scene.registry.get('ownedItems') || {};
+        const spacing = 220;
+        const startX  = -(spacing * (items.length - 1)) / 2;
 
         items.forEach((item, i) => {
             const x       = startX + i * spacing;
             const isOwned = !!owned[item.id];
 
-            // Tarjeta
             const card = this.scene.add.rectangle(x, 0, 190, 260, isOwned ? 0xd4edda : 0xe3f2fd)
                 .setStrokeStyle(4, isOwned ? 0x4caf50 : 0x90caf9)
                 .setInteractive({ useHandCursor: true });
 
-            // Imagen del item
             const img = this.scene.add.image(x, -60, item.id)
                 .setDisplaySize(130, 130);
 
-            // Nombre
             const nameText = this.scene.add.text(x, 55, item.label, {
                 fontSize: '15px', color: '#1a1a1a',
                 fontStyle: 'bold', fontFamily: 'Arial'
             }).setOrigin(0.5);
 
-            // Botón comprar / owned
-            const btnColor  = isOwned ? 0x9e9e9e : 0x4caf50;
-            const btnLabel  = isOwned ? 'OWNED' : `$${item.price}`;
+            const btnColor = isOwned ? 0x9e9e9e : 0x4caf50;
+            const btnLabel = isOwned ? 'OWNED' : `$${item.price}`;
             const btn = this.scene.add.rectangle(x, 100, 150, 38, btnColor)
                 .setStrokeStyle(3, 0x333333);
             const btnText = this.scene.add.text(x, 100, btnLabel, {
@@ -176,7 +148,6 @@ export default class StorePanel {
     _buy(item) {
         const coins = this.scene.registry.get('coins') || 0;
         if (coins < item.price) {
-            // Feedback sin monedas
             this.scene.tweens.add({
                 targets: this.coinsText,
                 x: this.coinsText.x + 6, duration: 40,
@@ -185,10 +156,7 @@ export default class StorePanel {
             return;
         }
 
-        // Descontar monedas
         this.scene.registry.set('coins', coins - item.price);
-
-        // Agregar a owned
         const owned = this.scene.registry.get('ownedItems') || {};
         owned[item.id] = true;
         this.scene.registry.set('ownedItems', owned);
